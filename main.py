@@ -1,14 +1,11 @@
-# main.py
-
 from pathlib import Path
 import sys
 import time
-import shutil # A more powerful tool for file operations
+import shutil 
 
-# --- Constants ---
+
 DOWNLOADS_PATH = Path.home() / 'Downloads'
 
-# A dictionary mapping file suffixes to their destination folder
 FOLDER_MAPPING = {
     'Images': ['.jpeg', '.jpg', '.png', '.gif', '.bmp', '.svg'],
     'Documents': ['.pdf', '.docx', '.doc', '.txt', '.xlsx', '.pptx', '.md'],
@@ -23,40 +20,63 @@ def get_destination_folder(suffix: str) -> str:
     for folder_name, suffixes in FOLDER_MAPPING.items():
         if suffix.lower() in suffixes:
             return folder_name
-    return 'Others' # Default folder if no match is found
+    return 'Others' 
 
-def organize_folder(path: Path):
+def organize_folder(path: Path, dry_run: bool = True): # Add dry_run parameter, default to True
     """
-    Organizes all files in the given path according to FOLDER_MAPPING.
+    Organizes files in the given path.
+    If dry_run is True, it will only print the actions it would take.
     """
     if not path.exists() or not path.is_dir():
         print(f"❌ Error: The directory '{path}' does not exist.")
         sys.exit(1)
         
     print(f"🚀 Starting organization of '{path.name}'...")
-    time.sleep(1) # Give the user a moment to read
+    if dry_run:
+        print("🚨 DRY RUN MODE IS ENABLED. No files will be moved.")
+    
+    time.sleep(1)
 
     for entry in path.iterdir():
-        # We only care about files, not subdirectories
         if entry.is_file():
-            # 1. Determine the destination folder name
             dest_folder_name = get_destination_folder(entry.suffix)
-            
-            # 2. Create the full path for the destination folder
             dest_folder_path = path / dest_folder_name
-            
-            # 3. Create the folder if it doesn't exist
-            dest_folder_path.mkdir(exist_ok=True)
-            
-            # 4. Construct the full destination file path
             dest_file_path = dest_folder_path / entry.name
             
-            # 5. Move the file
-            print(f"Moving '{entry.name}' -> '{dest_folder_name}/'")
-            shutil.move(str(entry), str(dest_file_path))
+            # --- The new logic is here ---
+            action_message = f"Move '{entry.name}' -> '{dest_folder_name}/'"
+
+            if dry_run:
+                # In dry run mode, we just print the planned action
+                print(f"[DRY RUN] {action_message}")
+            else:
+                # If not in dry run, we perform the action
+                dest_folder_path.mkdir(exist_ok=True)
+                print(action_message)
+                shutil.move(str(entry), str(dest_file_path))
 
     print("\n✅ Organization complete!")
 
+def get_unique_filepath(destination_path: Path) -> Path:
+    if not destination_path.exists():
+        return destination_path
+    
+    parent_folder = destination_path.parent
+    original_stem = destination_path.stem
+    sufffix = destination_path.suffix
+    
+    counter = 1
+    while True:
+        new_stem = f"{original_stem} ({counter}{sufffix})"
+        new_path = parent_folder / new_stem
+        
+        if not new_path.exists():
+            return new_path
+        counter += 1
 
 if __name__ == "__main__":
-    organize_folder(DOWNLOADS_PATH)
+    # To run for real, change this to False
+    # This acts as our safety switch
+    IS_DRY_RUN = True
+    
+    organize_folder(DOWNLOADS_PATH, dry_run=IS_DRY_RUN)
