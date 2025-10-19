@@ -1,44 +1,62 @@
+# main.py
+
 from pathlib import Path
-import sys 
+import sys
+import time
+import shutil # A more powerful tool for file operations
 
-IMAGE_SUFFIXES = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.svg']
+# --- Constants ---
+DOWNLOADS_PATH = Path.home() / 'Downloads'
 
-def get_download_path() -> Path:
-    return Path.home() / 'Downloads'
+# A dictionary mapping file suffixes to their destination folder
+FOLDER_MAPPING = {
+    'Images': ['.jpeg', '.jpg', '.png', '.gif', '.bmp', '.svg'],
+    'Documents': ['.pdf', '.docx', '.doc', '.txt', '.xlsx', '.pptx', '.md'],
+    'Audio': ['.mp3', '.wav', '.aac'],
+    'Videos': ['.mp4', '.mov', '.avi', '.mkv'],
+    'Archives': ['.zip', '.rar', '.tar', '.gz'],
+    'Executables': ['.exe', '.msi'],
+}
 
-# The complete, updated function
+def get_destination_folder(suffix: str) -> str:
+    """Finds the destination folder for a given file suffix."""
+    for folder_name, suffixes in FOLDER_MAPPING.items():
+        if suffix.lower() in suffixes:
+            return folder_name
+    return 'Others' # Default folder if no match is found
 
-def list_files(folder_path: Path):
+def organize_folder(path: Path):
     """
-    Lists only image files in the given folder_path based on IMAGE_SUFFIXES.
-    Exits the script if the path is not a valid directory.
+    Organizes all files in the given path according to FOLDER_MAPPING.
     """
-    if not folder_path.exists() or not folder_path.is_dir():
-        print(f"❌ Error: The directory '{folder_path}' does not exist or is not a folder.")
+    if not path.exists() or not path.is_dir():
+        print(f"❌ Error: The directory '{path}' does not exist.")
         sys.exit(1)
-
-    print(f"🖼️  Searching for images in '{folder_path.name}':")
-    print("---" * 10)
-    
-    found_images = False # A little flag to see if we find anything
-    for entry in sorted(folder_path.iterdir()):
-        # Check if the entry is a file and if its suffix is in our allowed list
-        if entry.is_file() and entry.suffix.lower() in IMAGE_SUFFIXES:
-            print(f"- {entry.name}")
-            found_images = True # We found at least one!
-            
-    if not found_images:
-        print("No images found with the specified extensions.")
         
-    print("---" * 10)
+    print(f"🚀 Starting organization of '{path.name}'...")
+    time.sleep(1) # Give the user a moment to read
+
+    for entry in path.iterdir():
+        # We only care about files, not subdirectories
+        if entry.is_file():
+            # 1. Determine the destination folder name
+            dest_folder_name = get_destination_folder(entry.suffix)
+            
+            # 2. Create the full path for the destination folder
+            dest_folder_path = path / dest_folder_name
+            
+            # 3. Create the folder if it doesn't exist
+            dest_folder_path.mkdir(exist_ok=True)
+            
+            # 4. Construct the full destination file path
+            dest_file_path = dest_folder_path / entry.name
+            
+            # 5. Move the file
+            print(f"Moving '{entry.name}' -> '{dest_folder_name}/'")
+            shutil.move(str(entry), str(dest_file_path))
+
+    print("\n✅ Organization complete!")
 
 
 if __name__ == "__main__":
-    print("🚀 Smart Routine Automator is running!")
-    
-    
-    downloads_folder = get_download_path()
-    
-    list_files(downloads_folder)
-    
-    print("✅ Done!")
+    organize_folder(DOWNLOADS_PATH)
