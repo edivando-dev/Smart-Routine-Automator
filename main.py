@@ -22,7 +22,7 @@ def get_destination_folder(suffix: str) -> str:
             return folder_name
     return 'Others' 
 
-def organize_folder(path: Path, dry_run: bool = True): # Add dry_run parameter, default to True
+def organize_folder(path: Path, dry_run: bool = True): 
     """
     Organizes files in the given path.
     If dry_run is True, it will only print the actions it would take.
@@ -41,19 +41,16 @@ def organize_folder(path: Path, dry_run: bool = True): # Add dry_run parameter, 
         if entry.is_file():
             dest_folder_name = get_destination_folder(entry.suffix)
             dest_folder_path = path / dest_folder_name
-            dest_file_path = dest_folder_path / entry.name
+            unique_dest_path = get_unique_filepath(dest_folder_path / entry.name)
             
-            # --- The new logic is here ---
-            action_message = f"Move '{entry.name}' -> '{dest_folder_name}/'"
+            action_message = f"Move '{entry.name}' -> '{unique_dest_path.parent.name}/{unique_dest_path.name}'"
 
             if dry_run:
-                # In dry run mode, we just print the planned action
                 print(f"[DRY RUN] {action_message}")
             else:
-                # If not in dry run, we perform the action
                 dest_folder_path.mkdir(exist_ok=True)
                 print(action_message)
-                shutil.move(str(entry), str(dest_file_path))
+                shutil.move(str(entry), str(unique_dest_path))
 
     print("\n✅ Organization complete!")
 
@@ -75,8 +72,6 @@ def get_unique_filepath(destination_path: Path) -> Path:
         counter += 1
 
 if __name__ == "__main__":
-    # To run for real, change this to False
-    # This acts as our safety switch
-    IS_DRY_RUN = True
+    IS_DRY_RUN = False
     
     organize_folder(DOWNLOADS_PATH, dry_run=IS_DRY_RUN)
