@@ -1,19 +1,8 @@
-# 🧠 Smart Routine Automator
+## Installation
 
-A simple yet powerful Python script to automatically organize your Downloads folder and keep it tidy.
+1.  **Clone the repository.**
 
-## Features
-
-- **Automatic Categorization**: Sorts files into predefined folders (Images, Documents, Videos, etc.) based on their extension.
-- **Smart Folder Creation**: Automatically creates destination folders if they don't exist.
-- **Conflict Resolution**: Safely handles duplicate filenames by appending a counter (e.g., `file (1).txt`).
-- **Dry Run Mode**: Allows you to preview the changes without actually moving any files, ensuring safety.
-
-## How to Use
-
-1.  **Clone the repository** (or download the `main.py` file).
-
-2.  **Set up the environment**:
+2.  **Set up the environment and dependencies**:
     ```bash
     # Navigate to the project folder
     cd smart-routine-automator
@@ -21,15 +10,14 @@ A simple yet powerful Python script to automatically organize your Downloads fol
     # Create and activate a virtual environment
     python3 -m venv .venv
     source .venv/bin/activate
+
+    # Install the required library
+    pip install watchdog
     ```
 
-3.  **Run the script**:
-    - To see a preview of the changes (recommended first):
-      ```bash
-      python main.py
-      ```
-    - To actually move the files, open `main.py` and change the `IS_DRY_RUN` variable to `False`.
+## How to Use
 
-## Customization
+Simply run the script from your terminal:
 
-You can easily customize the folder mapping by editing the `FOLDER_MAPPING` dictionary at the top of the `main.py` file. Add or remove extensions and folders to fit your needs!
+```bash
+python main.py

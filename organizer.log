@@ -1,0 +1,22 @@
+2025-10-27 22:24:06 - [INFO] - Scaning for files polder than 0 days...
+2025-10-27 22:25:24 - [INFO] - Scaning for files polder than 0 days...
+2025-10-27 22:27:12 - [INFO] - Scaning for files polder than 0 days...
+2025-10-27 22:27:12 - [INFO] - [DRY RUN]Archive old file '.DS_Store'
+2025-10-27 22:27:12 - [INFO] - [DRY RUN]Archive old file 'WhatsApp Image 2025-10-26 at 19.21.59.jpeg'
+2025-10-27 22:27:12 - [INFO] - [DRY RUN]Archive old file 'FlyerAnoNovo.png'
+2025-10-27 22:27:12 - [INFO] - Starting organization of 'Downloads'...
+2025-10-27 22:27:12 - [WARNING] - DRY RUN MODE IS ENABLE. NO files will be moved.
+2025-10-27 22:27:13 - [INFO] - [DRY RUN] Moving '.DS_Store' -> 'Others/'
+2025-10-27 22:27:13 - [INFO] - [DRY RUN] Moving 'WhatsApp Image 2025-10-26 at 19.21.59.jpeg' -> 'Images/'
+2025-10-27 22:27:13 - [INFO] - [DRY RUN] Moving 'FlyerAnoNovo.png' -> 'Images/'
+2025-10-27 22:27:13 - [INFO] - ✅ Organization complete!
+2025-10-28 10:58:58 - [INFO] - 👀 Starting to watch folder: /Users/didoreis/Downloads
+2025-10-28 11:00:15 - [INFO] - 👀 Starting to watch folder: /Users/didoreis/Downloads
+2025-10-28 11:00:31 - [INFO] - 👀 Starting to watch folder: /Users/didoreis/Downloads
+2025-10-28 11:02:54 - [INFO] - 👀 Starting to watch folder: /Users/didoreis/Downloads
+2025-10-28 11:02:54 - [INFO] - 🚀 Watchdog is now running in the background. Press Ctrl+C to stop.
+2025-10-28 11:03:28 - [INFO] - 🚨 New file detected: Gankotsu:Bobs.pdf
+2025-10-28 11:03:28 - [INFO] - ✅ Moved 'Gankotsu:Bobs.pdf' -> 'Documents/'
+2025-10-28 11:04:01 - [INFO] - 🚨 New file detected: WhatsApp Image 2025-08-23 at 20.35.48.jpeg
+2025-10-28 11:04:01 - [INFO] - ✅ Moved 'WhatsApp Image 2025-08-23 at 20.35.48.jpeg' -> 'Images/'
+2025-10-28 11:13:30 - [INFO] - 🛑 Watchdog stopped by user.
